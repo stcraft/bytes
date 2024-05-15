@@ -1035,6 +1035,17 @@ impl BytesMut {
     }
 }
 
+impl std::io::Write for BytesMut {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        self.put_slice(buf);
+        Ok(buf.len())
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
+
 impl Drop for BytesMut {
     fn drop(&mut self) {
         let kind = self.kind();
